@@ -1,24 +1,27 @@
 <template>
-  <MorseQuiz v-bind:value="askedWord" v-on:enteredWord="handleWord" />
+  <div>
+    <select v-model="selectedQuiz">
+      <option value="write">Write</option>
+      <option value="listen">Listen</option>
+    </select>
+    <morse-quiz-box v-if="selectedQuiz === 'write'" />
+    <listen-quiz v-else-if="selectedQuiz === 'listen'" />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MorseQuiz from "@/components/MorseQuiz.vue";
+import MorseQuizBox from "@/components/MorseQuizBox.vue";
+import ListenQuiz from "./components/ListenQuiz.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    MorseQuiz,
+    MorseQuizBox,
+    ListenQuiz,
   },
   data() {
-    return { askedWord: "hehe " };
-  },
-  methods: {
-    handleWord() {
-      console.log("Did it");
-      this.askedWord = "blabla";
-    },
+    return { selectedQuiz: "write" };
   },
 });
 </script>

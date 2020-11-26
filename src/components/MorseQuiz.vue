@@ -1,7 +1,7 @@
 <template>
   <div class="morseQuiz">
-    <MatchingLetters v-bind:stateful-letters="letters" />
-    <MorseInput v-model:model-value="morsedWord" />
+    <matching-letters v-bind:statefulLetters="letters" />
+    <morse-input v-model="morsedWord" />
   </div>
 </template>
 
@@ -16,16 +16,13 @@ export default defineComponent({
     return { morsedWord: "", wantedWord: "" };
   },
   mounted() {
-    this.wantedWord = this.value || "";
+    this.wantedWord = this.value;
   },
   emits: ["enteredWord"],
-  props: { value: String },
+  props: { value: { type: String, required: true } },
   components: { MorseInput, MatchingLetters },
   watch: {
     morsedWord(new_word: string, old_word: string) {
-      if (this.wantedWord === undefined) {
-        return;
-      }
       if (new_word.toLowerCase() === this.wantedWord.toLowerCase()) {
         this.$emit("enteredWord");
         this.morsedWord = "";
@@ -37,9 +34,6 @@ export default defineComponent({
   },
   computed: {
     letters() {
-      if (this.wantedWord === undefined) {
-        return [];
-      }
       let result = [];
       for (let index = 0; index < this.wantedWord.length; index++) {
         const element: string = this.wantedWord[index];

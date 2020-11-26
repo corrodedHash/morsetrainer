@@ -3,10 +3,10 @@
     <div class="output">
       {{ formattedWord }}
     </div>
-    <MorseButton
-      v-on:letter-typed="handleLetter"
+    <morse-button
+      v-on:letterTyped="handleLetter"
       v-on:backspace="handleBackspace"
-      v-on:word-ended="handleEndword"
+      v-on:wordEnded="handleEndword"
     />
   </div>
 </template>

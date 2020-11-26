@@ -39,6 +39,10 @@ const dotMap: Record<string, string> = {
   ".-.-.-": ".",
   "--..--": ",",
 };
+let letterMap: Record<string, string> = {};
+Object.entries(dotMap).forEach(([key, value]) => {
+  letterMap[value] = key;
+});
 
 export function dotsToId(dots: string): number {
   let result = 1;
@@ -62,4 +66,12 @@ export function idToDots(id: number): string {
 
 export function getLetter(dots: string): string {
   return dotMap[dots] || "?";
+}
+
+export function getDots(letter: string): string {
+  const result = letterMap[letter.toLowerCase()];
+  if (result === undefined) {
+    throw Error("Unknown character");
+  }
+  return result;
 }
