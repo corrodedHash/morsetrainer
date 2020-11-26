@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import MorseButton from "@/components/MorseButton.vue";
+import MorseButton from "@/components/typing/MorseButton.vue";
 
 export default defineComponent({
   name: "MorseInput",

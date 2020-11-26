@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MorseQuiz from "@/components/MorseQuiz.vue";
+import MorseQuiz from "@/components/typing/MorseQuiz.vue";
 import randomEnglishWord from "@/englishWords";
 
 export default defineComponent({

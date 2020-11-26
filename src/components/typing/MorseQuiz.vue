@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MorseInput from "@/components/MorseInput.vue";
-import MatchingLetters from "@/components/MatchingLetters.vue";
+import MorseInput from "@/components/typing/MorseInput.vue";
+import MatchingLetters from "@/components/typing/MatchingLetters.vue";
 
 export default defineComponent({
   name: "MorseQuiz",

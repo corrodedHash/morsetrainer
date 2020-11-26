@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import MorseQuizBox from "@/components/MorseQuizBox.vue";
-import ListenQuiz from "./components/ListenQuiz.vue";
+import MorseQuizBox from "@/components/typing/MorseQuizBox.vue";
+import ListenQuiz from "./components/listening/ListenQuiz.vue";
 
 export default defineComponent({
   name: "App",
