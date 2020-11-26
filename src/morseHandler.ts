@@ -1,5 +1,5 @@
 import { idToDots, getLetter } from "@/morseDict";
-import Stopwatch from "@/stopwatch"
+import Stopwatch from "@/stopwatch";
 export default class MorseHandler {
   private _watch: Stopwatch;
   private _beeps: number;
@@ -30,6 +30,9 @@ export default class MorseHandler {
   }
   get currentDots(): string {
     return idToDots(this._beeps);
+  }
+  get empty(): boolean {
+    return this._beeps === 1;
   }
   terminateLetter(): string {
     const dots = idToDots(this._beeps);

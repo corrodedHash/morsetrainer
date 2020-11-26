@@ -1,26 +1,37 @@
 <template>
-  <div class="output">
-    {{ typedWord }}
+  <div class="morseInput">
+    <div class="output">
+      {{ formattedWord }}
+    </div>
+    <MorseButton
+      v-on:letter-typed="handleLetter"
+      v-on:backspace="handleBackspace"
+      v-on:word-ended="handleEndword"
+    />
   </div>
-  <MorseButton v-on:letterTyped="handleLetter" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import MorseButton from "./components/MorseButton.vue";
+<script lang="ts" src="./MorseInput.ts" />
 
-export default defineComponent({
-  name: "MorseInput",
-  data() {
-    return { typedWord: "" };
-  },
-  components: {
-    MorseButton,
-  },
-  methods: {
-    handleLetter(letter: string) {
-      this.typedWord += letter;
-    },
-  },
-});
-</script>
+<style scoped>
+.morseInput {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.output {
+  background-color: lightblue;
+  font-size: x-large;
+  width: max-content;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+  min-height: 2em;
+  line-height: 2;
+}
+.output:empty {
+  background-color: transparent;
+}
+</style>

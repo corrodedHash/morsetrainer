@@ -11,7 +11,7 @@ function eventToString(event: KeyboardEvent | TouchEvent): string {
 
 export default defineComponent({
   name: "MorseButton",
-  emits: ["letterTyped", "backspace"],
+  emits: ["letterTyped", "backspace", "wordEnded"],
   props: {
     allowedKeys: { type: Array, default: [] },
   },
@@ -27,8 +27,9 @@ export default defineComponent({
       if (this.isDown !== null) {
         return;
       }
-      if (eventToString(event) === "backspace") {
+      if (eventToString(event) === "backspace" && this.morseHandler.empty) {
         this.$emit("backspace");
+        clearTimeout(this.timeoutId);
         return;
       }
       if (
@@ -48,7 +49,7 @@ export default defineComponent({
       this.isDown = null;
       this.morseHandler.buttonUp();
       const spaceHandler = () => {
-        this.$emit("letterTyped", " ");
+        this.$emit("wordEnded");
       };
       const letterHandler = () => {
         this.$emit("letterTyped", this.morseHandler.terminateLetter());
