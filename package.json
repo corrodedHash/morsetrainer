@@ -8,6 +8,9 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primevue": "^3.0.2",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0"
   },

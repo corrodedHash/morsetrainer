@@ -1,11 +1,10 @@
 <template>
   <div>
-    <select v-model="selectedQuiz">
-      <option value="write">Write</option>
-      <option value="listen">Listen</option>
-    </select>
-    <morse-quiz-box v-if="selectedQuiz === 'write'" />
-    <listen-quiz v-else-if="selectedQuiz === 'listen'" />
+    <Menubar :model="quizzes" />
+    <div class="p-mt-2">
+      <morse-quiz-box v-if="selectedQuiz === 'w'" />
+      <listen-quiz v-else-if="selectedQuiz === 'l'" />
+    </div>
   </div>
 </template>
 
@@ -13,15 +12,43 @@
 import { defineComponent } from "vue";
 import MorseQuizBox from "@/components/typing/MorseQuizBox.vue";
 import ListenQuiz from "./components/listening/ListenQuiz.vue";
+import Toolbar from "primevue/toolbar";
+import Menubar from "primevue/menubar";
 
 export default defineComponent({
   name: "App",
   components: {
     MorseQuizBox,
     ListenQuiz,
+    Toolbar,
+    Menubar,
   },
   data() {
-    return { selectedQuiz: "write" };
+    return {
+      quizzes: [] as { [key: string]: any }[],
+      selectedQuiz: "w",
+    };
+  },
+  mounted() {
+    this.quizzes = [
+      {
+        label: "Trainer",
+        items: [
+          {
+            label: "Write",
+            command: () => {
+              this.selectedQuiz = "w";
+            },
+          },
+          {
+            label: "Listen",
+            command: () => {
+              this.selectedQuiz = "l";
+            },
+          },
+        ],
+      },
+    ];
   },
 });
 </script>

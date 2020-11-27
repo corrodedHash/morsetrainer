@@ -36,10 +36,17 @@ export class Beeper {
   private _notes: boolean[][][];
   private _terminate: boolean = false;
   private _oscillator = undefined as undefined | OscillatorNode;
-  constructor(notes: boolean[][][], frequency: number, unit_length_ms: number) {
+  private _callback: undefined | (() => any);
+  constructor(
+    notes: boolean[][][],
+    frequency: number,
+    unit_length_ms: number,
+    callback: undefined | (() => any)
+  ) {
     this._notes = notes;
     this._frequency = frequency;
     this.unit_length_ms = unit_length_ms;
+    this._callback = callback;
   }
   get frequency() {
     return this._frequency;
@@ -61,6 +68,9 @@ export class Beeper {
       return;
     }
     if (this._notes.length === 0) {
+      if (this._callback !== undefined) {
+        this._callback();
+      }
       return;
     }
     if (this._notes[0].length === 0) {
@@ -92,7 +102,8 @@ export class Beeper {
 export default function playWords(
   text: string,
   frequency: number,
-  unit_length_ms: number
+  unit_length_ms: number,
+  callback: (() => any) | undefined = undefined
 ): Beeper {
   let result = [];
   let word_result: boolean[][] = [];
@@ -109,7 +120,7 @@ export default function playWords(
     word_result.push(letter_result);
   }
   result.push(word_result);
-  let beeper = new Beeper(result, frequency, unit_length_ms);
+  let beeper = new Beeper(result, frequency, unit_length_ms, callback);
   beeper.playNote();
   return beeper;
 }

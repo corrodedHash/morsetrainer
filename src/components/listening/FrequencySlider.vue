@@ -1,39 +1,48 @@
 <template>
+  <InputNumber
+    v-model.number="frequency"
+    suffix=" Hz"
+    inputClass="p-text-center"
+    :min="frequencyRange[0]"
+    :max="frequencyRange[1]"
+  /><br />
   <input
     type="range"
-    :min="Math.floor(Math.log(40) * 1000)"
-    :max="Math.floor(Math.log(4000) * 1000)"
     v-model="logFrequency"
-    @input="updateFrequency"
+    :min="Math.floor(Math.log(frequencyRange[0]) * 1000)"
+    :max="Math.floor(Math.log(frequencyRange[1]) * 1000)"
   />
-  <input type="text" v-model="frequency" class="frequencyText" /><span
-    class="frequencyUnit"
-    >Hz</span
-  >
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import Slider from "primevue/slider";
+import InputNumber from "primevue/inputnumber";
 export default defineComponent({
   name: "FrequencySlider",
+  components: {
+    Slider,
+    InputNumber,
+  },
   props: {
     modelValue: { type: Number, default: 440 },
+    frequencyRange: { type: Array, default: [40, 4000] },
   },
   data() {
-    return { logFrequency: Math.floor(Math.log(this.modelValue) * 1000) };
+    return { frequency: this.modelValue };
   },
   emits: ["update:modelValue"],
   watch: {
     modelValue(new_value) {
-      this.logFrequency = Math.floor(Math.log(new_value) * 1000);
+      this.frequency = new_value;
     },
   },
   computed: {
-    frequency: {
+    logFrequency: {
       get: function(): number {
-        return Math.floor(Math.pow(Math.E, this.logFrequency / 1000));
+        return Math.floor(Math.log(this.frequency) * 1000);
       },
       set: function(newValue: number) {
-        this.logFrequency = Math.floor(Math.log(newValue) * 1000);
+        this.frequency = Math.floor(Math.pow(Math.E, newValue / 1000));
       },
     },
   },

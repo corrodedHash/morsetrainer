@@ -1,6 +1,6 @@
 <template>
-  <div class="morseQuiz">
-    <matching-letters v-bind:statefulLetters="letters" />
+  <div class="p-d-flex p-flex-column p-ai-center">
+    <matching-letters v-bind:statefulLetters="letters" class="p-shadow-1 p-px-3 p-py-1" />
     <morse-input v-model="morsedWord" />
   </div>
 </template>
@@ -54,9 +54,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.morseQuiz {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 </style>
