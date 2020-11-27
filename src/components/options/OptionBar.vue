@@ -18,7 +18,11 @@ import InputNumber from "primevue/inputnumber";
 import Sidebar from "primevue/sidebar";
 
 export default defineComponent({
-  props: { frequency: Number, unitTime: Number, visible: Boolean },
+  props: {
+    frequency: { required: true, type: Number },
+    unitTime: { required: true, type: Number },
+    visible: { required: true, type: Boolean },
+  },
   data() {
     return { optionsVisible: false };
   },
@@ -35,7 +39,7 @@ export default defineComponent({
   computed: {
     internalFrequency: {
       get(): number {
-        return this.frequency || 440;
+        return this.frequency;
       },
       set(new_value: number) {
         this.$emit("update:frequency", new_value);
@@ -43,7 +47,7 @@ export default defineComponent({
     },
     internalUnitTime: {
       get(): number {
-        return this.unitTime || 440;
+        return this.unitTime;
       },
       set(new_value: number) {
         this.$emit("update:unitTime", new_value);

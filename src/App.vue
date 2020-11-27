@@ -15,6 +15,76 @@
     v-model:unitTime="unitTime"
     v-model:visible="optionsVisible"
   />
+
+  <Dialog v-model:visible="lmDict" :dismissableMask="true" :modal="true">
+    <template #header> <h3>How to Morse</h3> </template>
+    <card>
+      <template #title>Timing</template>
+      <template #content>
+        <ul style="list-style-type:none;">
+          <li>
+            Dot (.) is morsed by holding the button for
+            <span class="p-text-bold">one</span> time unit.
+          </li>
+          <li>
+            Dash (-) is morsed by holding the button for
+            <span class="p-text-bold">three</span> time units.
+          </li>
+        </ul>
+        <ul style="list-style-type:none;">
+          <li>
+            The time between signals in a letter is
+            <span class="p-text-bold">one</span> time unit.
+          </li>
+          <li>
+            The time between letters in a word is
+            <span class="p-text-bold">three</span> time units.
+          </li>
+          <li>
+            The time between words (a space) is
+            <span class="p-text-bold">seven</span> time units.
+          </li>
+        </ul>
+      </template>
+    </card>
+    <card>
+      <template #title>Dictionary</template>
+      <template #content>
+        <table>
+          <tr v-for="entry of lmDictTable" :key="entry.letter">
+            <td>
+              <span class="p-px-1">{{ entry.letter.toUpperCase() }}</span>
+            </td>
+            <td>
+              <span class="p-px-1 p-text-bold">{{ entry.code }}</span>
+            </td>
+          </tr>
+        </table>
+      </template>
+    </card>
+  </Dialog>
+  <Dialog
+    v-if="selectedQuiz === 'w'"
+    v-model:visible="usage"
+    :dismissableMask="true"
+    :modal="true"
+  >
+    <template #header><h3>Usage</h3></template> Backspace or swipe to left to
+    delete last character.<br />
+
+    When on desktop, make sure to click the gray area once to put the morse
+    button into focus, then press any key.<br />
+
+    When on mobile, just press the button.<br />
+  </Dialog>
+  <Dialog
+    v-if="selectedQuiz === 'l'"
+    v-model:visible="usage"
+    :dismissableMask="true"
+    :modal="true"
+  >
+    <img src="demo/images/nature/nature1.jpg" alt="Nature Image" />
+  </Dialog>
 </template>
 
 <script lang="ts">
@@ -22,16 +92,19 @@ import { defineComponent } from "vue";
 import MorseQuizBox from "@/components/typing/MorseQuizBox.vue";
 import ListenQuiz from "@/components/listening/ListenQuiz.vue";
 import OptionBar from "@/components/options/OptionBar.vue";
-import Toolbar from "primevue/toolbar";
 import Menubar from "primevue/menubar";
+import Dialog from "primevue/dialog";
+import Card from "primevue/card";
+import { letterMap, dotMap } from "@/morseDict";
 
 export default defineComponent({
   name: "App",
   components: {
+    Dialog,
     MorseQuizBox,
     ListenQuiz,
-    Toolbar,
     Menubar,
+    Card,
     OptionBar,
   },
   data() {
@@ -41,7 +114,18 @@ export default defineComponent({
       optionsVisible: false,
       frequency: 440,
       unitTime: 100,
+      lmDict: false,
+      usage: false,
     };
+  },
+  computed: {
+    lmDictTable() {
+      let result: { code: string; letter: string }[] = [];
+      Object.entries(dotMap).forEach(([key, value]) => {
+        result.push({ code: key, letter: value });
+      });
+      return result;
+    },
   },
   mounted() {
     this.quizzes = [
@@ -68,12 +152,46 @@ export default defineComponent({
           this.optionsVisible = true;
         },
       },
+      {
+        label: "Help",
+        items: [
+          {
+            label: "How to Morse",
+            command: () => {
+              this.lmDict = true;
+            },
+          },
+          {
+            label: "Usage",
+            command: () => {
+              this.usage = true;
+            },
+          },
+        ],
+      },
     ];
   },
 });
 </script>
 
 <style scoped>
+table {
+  border: none;
+  border-collapse: collapse;
+}
+
+table td {
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+table td:first-child {
+  border-left: none;
+}
+
+table td:last-child {
+  border-right: none;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;

@@ -24,7 +24,7 @@ export default defineComponent({
     InputNumber,
   },
   props: {
-    modelValue: { type: Number, default: 440 },
+    modelValue: { type: Number, required: true },
     frequencyRange: { type: Array, default: [40, 4000] },
   },
   data() {

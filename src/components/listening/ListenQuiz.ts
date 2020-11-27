@@ -2,28 +2,14 @@ import { defineComponent } from "vue";
 import playWords from "@/beeper";
 import { Beeper } from "@/beeper";
 import randomEnglishWord from "@/englishWords";
-import Button from "primevue/button";
 import SplitButton from "primevue/splitbutton";
-import Tooltip from "primevue/tooltip";
 import InputText from "primevue/inputtext";
-import ToggleButton from "primevue/togglebutton";
-import OverlayPanel from "primevue/overlaypanel";
-import Sidebar from "primevue/sidebar";
-import InputNumber from "primevue/inputnumber";
 
 export default defineComponent({
   name: "ListenQuiz",
   components: {
-    Button,
     InputText,
-    ToggleButton,
-    OverlayPanel,
-    Sidebar,
     SplitButton,
-    InputNumber,
-  },
-  directives: {
-    tooltip: Tooltip,
   },
   props: {
     frequency: { required: true, type: Number },

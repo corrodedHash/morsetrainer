@@ -1,4 +1,4 @@
-const dotMap: Record<string, string> = {
+export const dotMap: Record<string, string> = {
   "-----": "0",
   ".----": "1",
   "..---": "2",
@@ -39,10 +39,11 @@ const dotMap: Record<string, string> = {
   ".-.-.-": ".",
   "--..--": ",",
 };
-let letterMap: Record<string, string> = {};
+let tmpLetterMap: Record<string, string> = {};
 Object.entries(dotMap).forEach(([key, value]) => {
-  letterMap[value] = key;
+  tmpLetterMap[value] = key;
 });
+export const letterMap = tmpLetterMap;
 
 export function dotsToId(dots: string): number {
   let result = 1;
