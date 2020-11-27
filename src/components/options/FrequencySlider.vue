@@ -35,6 +35,9 @@ export default defineComponent({
     modelValue(new_value) {
       this.frequency = new_value;
     },
+    frequency(new_value) {
+      this.$emit("update:modelValue", new_value);
+    },
   },
   computed: {
     logFrequency: {
@@ -44,11 +47,6 @@ export default defineComponent({
       set: function(newValue: number) {
         this.frequency = Math.floor(Math.pow(Math.E, newValue / 1000));
       },
-    },
-  },
-  methods: {
-    updateFrequency() {
-      this.$emit("update:modelValue", this.frequency);
     },
   },
 });

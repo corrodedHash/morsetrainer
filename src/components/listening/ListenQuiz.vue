@@ -9,23 +9,6 @@
           :model="playItems"
           class="p-mr-1"
         />
-        <Button
-          @click="optionsVisible = true"
-          v-tooltip="'Options'"
-          icon="pi pi-cog"
-          id="options_button"
-        />
-        <Sidebar
-          v-model:visible="optionsVisible"
-          position="bottom"
-          :showCloseIcon="false"
-          style="overflow: scroll;"
-        >
-          <h3>Beep Length</h3>
-          <InputNumber v-model="unit_time" suffix="ms" :max="2000" :min="10" />
-          <h3>Tone Frequency</h3>
-          <frequency-slider v-model="frequency" />
-        </Sidebar>
       </div>
     </div>
     <span class="p-input-icon-right p-mt-1">

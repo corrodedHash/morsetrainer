@@ -2,7 +2,6 @@ import { defineComponent } from "vue";
 import playWords from "@/beeper";
 import { Beeper } from "@/beeper";
 import randomEnglishWord from "@/englishWords";
-import FrequencySlider from "@/components/listening/FrequencySlider.vue";
 import Button from "primevue/button";
 import SplitButton from "primevue/splitbutton";
 import Tooltip from "primevue/tooltip";
@@ -15,7 +14,6 @@ import InputNumber from "primevue/inputnumber";
 export default defineComponent({
   name: "ListenQuiz",
   components: {
-    FrequencySlider,
     Button,
     InputText,
     ToggleButton,
@@ -24,17 +22,20 @@ export default defineComponent({
     SplitButton,
     InputNumber,
   },
-
   directives: {
     tooltip: Tooltip,
+  },
+  props: {
+    frequency: { required: true, type: Number },
+    unitTime: { required: true, type: Number },
   },
   data() {
     return {
       enteredWord: "",
       wantedWord: randomEnglishWord(),
       autoplayWord: false,
-      frequency: 440,
-      unit_time: 100,
+      _frequency: this.frequency,
+      _unit_time: this.unitTime,
       beeping: null as null | Beeper,
       optionsVisible: false,
       playItems: [] as {
@@ -84,7 +85,13 @@ export default defineComponent({
         this.handleSolve();
       }
     },
-    frequency(new_freq) {
+    frequency(new_value) {
+      this._frequency = new_value;
+    },
+    unitTime(new_value) {
+      this._unit_time = new_value;
+    },
+    _frequency(new_freq) {
       if (this.beeping !== null) {
         this.beeping.frequency = new_freq;
       }
@@ -115,31 +122,19 @@ export default defineComponent({
         this.beeping.cancel();
       }
       this.beeping = beep;
-      if (beep === null) {
-        for (const item of this.playItems) {
-          if (item.label === "Play whole") {
-            item.visible = true;
-          } else if (item.label === "Play rest") {
-            item.visible = true;
-          }
-        }
-      } else {
-        for (const item of this.playItems) {
-          if (item.label === "Play whole") {
-            item.visible = false;
-          } else if (item.label === "Play rest") {
-            item.visible = false;
-          }
+      const playButtonState = beep === null;
+      for (const item of this.playItems) {
+        if (item.label === "Play whole" || item.label === "Play rest") {
+          item.visible = playButtonState;
         }
       }
     },
     playWord() {
-      console.log("Playing");
       this.setBeep(
         playWords(
           this.wantedWord,
-          this.frequency,
-          this.unit_time / 1000,
+          this._frequency,
+          this._unit_time / 1000,
           this.handleTextStop.bind(this)
         )
       );
@@ -152,8 +147,8 @@ export default defineComponent({
       this.setBeep(
         playWords(
           this.wantedWord.substr(this.enteredWord.length),
-          this.frequency,
-          this.unit_time / 1000,
+          this._frequency,
+          this._unit_time / 1000,
           this.handleTextStop.bind(this)
         )
       );

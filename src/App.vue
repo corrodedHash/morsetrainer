@@ -3,15 +3,25 @@
     <Menubar :model="quizzes" />
     <div class="p-mt-2">
       <morse-quiz-box v-if="selectedQuiz === 'w'" />
-      <listen-quiz v-else-if="selectedQuiz === 'l'" />
+      <listen-quiz
+        v-else-if="selectedQuiz === 'l'"
+        :frequency="frequency"
+        :unitTime="unitTime"
+      />
     </div>
   </div>
+  <option-bar
+    v-model:frequency="frequency"
+    v-model:unitTime="unitTime"
+    v-model:visible="optionsVisible"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import MorseQuizBox from "@/components/typing/MorseQuizBox.vue";
-import ListenQuiz from "./components/listening/ListenQuiz.vue";
+import ListenQuiz from "@/components/listening/ListenQuiz.vue";
+import OptionBar from "@/components/options/OptionBar.vue";
 import Toolbar from "primevue/toolbar";
 import Menubar from "primevue/menubar";
 
@@ -22,11 +32,15 @@ export default defineComponent({
     ListenQuiz,
     Toolbar,
     Menubar,
+    OptionBar,
   },
   data() {
     return {
       quizzes: [] as { [key: string]: any }[],
       selectedQuiz: "w",
+      optionsVisible: false,
+      frequency: 440,
+      unitTime: 100,
     };
   },
   mounted() {
@@ -47,6 +61,12 @@ export default defineComponent({
             },
           },
         ],
+      },
+      {
+        label: "Settings",
+        command: () => {
+          this.optionsVisible = true;
+        },
       },
     ];
   },
