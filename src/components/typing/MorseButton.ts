@@ -20,12 +20,35 @@ export default defineComponent({
       morseHandler: new MorseHandler(),
       timeoutId: 0,
       isDown: null as string | null,
+      touchStart: null as null | [number, number],
     };
   },
   methods: {
+    handleTouchmove(event: TouchEvent) {
+      if (this.touchStart === null) {
+        return;
+      }
+      const maxAngle = 20;
+
+      const xDiff = this.touchStart[0] - event.touches[0].clientX;
+      const yDiff = this.touchStart[1] - event.touches[0].clientY;
+      const maxYLength =
+        (xDiff / Math.sin((180 - 90 - 20 * Math.PI) / 180)) *
+        Math.sin((maxAngle * Math.PI) / 180);
+      if (xDiff > 20 && yDiff < maxYLength) {
+        this.touchStart = null;
+        this.$emit("backspace");
+        clearTimeout(this.timeoutId);
+        this.isDown = null;
+      }
+    },
     handleKeydown(event: KeyboardEvent | TouchEvent) {
       if (this.isDown !== null) {
         return;
+      }
+      if (window.TouchEvent && event instanceof TouchEvent) {
+        console.log(event.touches);
+        this.touchStart = [event.touches[0].clientX, event.touches[0].clientY];
       }
       if (eventToString(event) === "backspace" && this.morseHandler.empty) {
         this.$emit("backspace");

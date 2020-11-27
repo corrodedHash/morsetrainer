@@ -5,6 +5,7 @@
     v-on:keyup="handleKeyup"
     v-on:touchstart="handleKeydown"
     v-on:touchend="handleKeyup"
+    v-on:touchmove="handleTouchmove"
     autofocus
   >
     {{ currentDots }}

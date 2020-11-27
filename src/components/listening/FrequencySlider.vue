@@ -6,6 +6,10 @@
     v-model="logFrequency"
     @input="updateFrequency"
   />
+  <input type="text" v-model="frequency" class="frequencyText" /><span
+    class="frequencyUnit"
+    >Hz</span
+  >
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -21,12 +25,16 @@ export default defineComponent({
   watch: {
     modelValue(new_value) {
       this.logFrequency = Math.floor(Math.log(new_value) * 1000);
-      console.log(new_value);
     },
   },
   computed: {
-    frequency(): number {
-      return Math.pow(Math.E, this.logFrequency / 1000);
+    frequency: {
+      get: function(): number {
+        return Math.floor(Math.pow(Math.E, this.logFrequency / 1000));
+      },
+      set: function(newValue: number) {
+        this.logFrequency = Math.floor(Math.log(newValue) * 1000);
+      },
     },
   },
   methods: {
@@ -36,3 +44,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.frequencyText {
+  width: 3em;
+}
+.frequencyUnit {
+  margin-left: 10px;
+  position: relative;
+}
+</style>
