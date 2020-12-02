@@ -1,6 +1,12 @@
 <template>
   <div class="p-d-flex p-flex-column p-ai-center">
-    <matching-letters v-bind:statefulLetters="letters" class="p-shadow-1 p-px-3 p-py-1" />
+    <transition name="fade" mode="out-in">
+    <matching-letters
+      :statefulLetters="letters"
+      class="p-shadow-1 p-px-3 p-py-1"
+      :key="questionId"
+    />
+    </transition>
     <morse-input v-model="morsedWord" />
   </div>
 </template>
@@ -13,7 +19,7 @@ import MatchingLetters from "@/components/typing/MatchingLetters.vue";
 export default defineComponent({
   name: "MorseQuiz",
   data() {
-    return { morsedWord: "", wantedWord: "" };
+    return { morsedWord: "", wantedWord: "", questionId: 0 };
   },
   mounted() {
     this.wantedWord = this.value;
@@ -30,6 +36,7 @@ export default defineComponent({
     },
     value(new_value: string, old_value: string) {
       this.wantedWord = new_value;
+      this.questionId += 1;
     },
   },
   computed: {
@@ -54,4 +61,15 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.fade-enter-active {
+  transition: all .1s ease;
+}
+.fade-leave-active {
+  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.fade-enter, .fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
 </style>

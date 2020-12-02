@@ -13,15 +13,16 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MatchingLetters",
-  props: ["statefulLetters"],
+  props: { statefulLetters: { type: Array, required: true } },
   data() {
-    return { myLetters: [] };
+    return { myLetters: this.statefulLetters as [string, number][] };
   },
   watch: {
     statefulLetters() {
-      this.myLetters = this.statefulLetters;
+      this.myLetters = this.statefulLetters as [string, number][];
     },
   },
+
   computed: {
     letterStates() {
       let result: Array<[number, string, string]> = [];

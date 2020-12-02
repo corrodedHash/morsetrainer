@@ -47,7 +47,6 @@ export default defineComponent({
         return;
       }
       if (window.TouchEvent && event instanceof TouchEvent) {
-        console.log(event.touches);
         this.touchStart = [event.touches[0].clientX, event.touches[0].clientY];
       }
       if (eventToString(event) === "backspace" && this.morseHandler.empty) {
