@@ -1,9 +1,9 @@
 <template>
-  <div class="p-d-flex p-flex-column p-ai-center">
+  <div class="flex flex-column justify-content-center">
     <transition name="fade" mode="out-in">
     <matching-letters
       :statefulLetters="letters"
-      class="p-shadow-1 p-px-3 p-py-1"
+      class="shadow-1 px-3 py-1 text-center"
       :key="questionId"
     />
     </transition>

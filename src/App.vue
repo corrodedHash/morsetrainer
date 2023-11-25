@@ -1,7 +1,7 @@
 <template>
   <div>
     <Menubar :model="quizzes" />
-    <div class="p-mt-2">
+    <div class="mt-2">
       <morse-quiz-box v-if="selectedQuiz === 'w'" />
       <listen-quiz
         v-else-if="selectedQuiz === 'l'"
@@ -21,28 +21,28 @@
     <card>
       <template #title>Timing</template>
       <template #content>
-        <ul style="list-style-type:none;">
+        <ul style="list-style-type: none">
           <li>
             Dot (.) is morsed by holding the button for
-            <span class="p-text-bold">one</span> time unit.
+            <span class="font-bold">one</span> time unit.
           </li>
           <li>
             Dash (-) is morsed by holding the button for
-            <span class="p-text-bold">three</span> time units.
+            <span class="font-bold">three</span> time units.
           </li>
         </ul>
-        <ul style="list-style-type:none;">
+        <ul style="list-style-type: none">
           <li>
             The time between signals in a letter is
-            <span class="p-text-bold">one</span> time unit.
+            <span class="font-bold">one</span> time unit.
           </li>
           <li>
             The time between letters in a word is
-            <span class="p-text-bold">three</span> time units.
+            <span class="font-bold">three</span> time units.
           </li>
           <li>
             The time between words (a space) is
-            <span class="p-text-bold">seven</span> time units.
+            <span class="font-bold">seven</span> time units.
           </li>
         </ul>
       </template>
@@ -53,10 +53,10 @@
         <table>
           <tr v-for="entry of lmDictTable" :key="entry.letter">
             <td>
-              <span class="p-px-1">{{ entry.letter.toUpperCase() }}</span>
+              <span class="px-1">{{ entry.letter.toUpperCase() }}</span>
             </td>
             <td>
-              <span class="p-px-1 p-text-bold">{{ entry.code }}</span>
+              <span class="px-1 text-bold">{{ entry.code }}</span>
             </td>
           </tr>
         </table>
@@ -83,7 +83,18 @@
     :dismissableMask="true"
     :modal="true"
   >
-    <img src="demo/images/nature/nature1.jpg" alt="Nature Image" />
+    <template #header><h3>Usage</h3></template>
+
+    <p>
+      Press Play to start receiving the morse code When some correct characters
+      were already entered, pressing play again will result in just the
+      remaining characters to be sent again. To listen to the entire message,
+      use the drop down menu and click "Play whole"
+    </p>
+    <p>
+      The pause between signals, as well as the signal frequency, can be
+      adjusted in the settings.
+    </p>
   </Dialog>
 </template>
 

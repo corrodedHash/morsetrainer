@@ -2,7 +2,7 @@
   <InputNumber
     v-model.number="frequency"
     suffix=" Hz"
-    inputClass="p-text-center"
+    inputClass="text-center"
     :min="frequencyRange[0]"
     :max="frequencyRange[1]"
   /><br />
@@ -13,42 +13,24 @@
     :max="Math.floor(Math.log(frequencyRange[1]) * 1000)"
   />
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import Slider from "primevue/slider";
+<script lang="ts" setup>
+import { computed, ref, watch } from "vue";
 import InputNumber from "primevue/inputnumber";
-export default defineComponent({
-  name: "FrequencySlider",
-  components: {
-    Slider,
-    InputNumber,
-  },
-  props: {
-    modelValue: { type: Number, required: true },
-    frequencyRange: { type: Array, default: [40, 4000] },
-  },
-  data() {
-    return { frequency: this.modelValue };
-  },
-  emits: ["update:modelValue"],
-  watch: {
-    modelValue(new_value) {
-      this.frequency = new_value;
-    },
-    frequency(new_value) {
-      this.$emit("update:modelValue", new_value);
-    },
-  },
-  computed: {
-    logFrequency: {
-      get: function(): number {
-        return Math.floor(Math.log(this.frequency) * 1000);
-      },
-      set: function(newValue: number) {
-        this.frequency = Math.floor(Math.pow(Math.E, newValue / 1000));
-      },
-    },
-  },
+
+const props = withDefaults(
+  defineProps<{ modelValue: number; frequencyRange?: [number, number] }>(),
+  { frequencyRange: () => [40, 4000] }
+);
+const frequency = ref(props.modelValue);
+const emits = defineEmits<{ (e: "update:modelValue", value: number): void }>();
+watch(frequency, (v) => emits("update:modelValue", v));
+watch(
+  () => props.modelValue,
+  (m) => (frequency.value = m)
+);
+const logFrequency = computed({
+  get: () => Math.floor(Math.log(frequency.value) * 1000),
+  set: (v) => (frequency.value = Math.floor(Math.pow(Math.E, v / 1000))),
 });
 </script>
 

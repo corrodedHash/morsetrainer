@@ -12,22 +12,13 @@ enum PauseState {
 }
 
 function pauseTimeFactor(state: PauseState): number {
-  let pause_time_factor;
-  switch (state) {
-    case PauseState.Start:
-      pause_time_factor = 0;
-      break;
-    case PauseState.Tone:
-      pause_time_factor = 1;
-      break;
-    case PauseState.Letter:
-      pause_time_factor = 3;
-      break;
-    case PauseState.Word:
-      pause_time_factor = 7;
-      break;
-  }
-  return pause_time_factor;
+  const factor_map: { [key in PauseState]: number } = {
+    [PauseState.Start]: 0,
+    [PauseState.Tone]: 1,
+    [PauseState.Letter]: 0,
+    [PauseState.Word]: 0,
+  };
+  return factor_map[state];
 }
 
 export class Beeper {
