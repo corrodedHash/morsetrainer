@@ -106,7 +106,7 @@ import OptionBar from "@/components/options/OptionBar.vue";
 import Menubar from "primevue/menubar";
 import Dialog from "primevue/dialog";
 import Card from "primevue/card";
-import { letterMap, dotMap } from "@/morseDict";
+import { dotMap } from "@/morseDict";
 
 export default defineComponent({
   name: "App",

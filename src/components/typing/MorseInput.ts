@@ -29,7 +29,7 @@ export default defineComponent({
     },
   },
   watch: {
-    modelValue(new_value: string, old_value: string) {
+    modelValue(new_value: string, _: string) {
       this.typedWord = new_value;
     },
   },

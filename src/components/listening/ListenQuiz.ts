@@ -66,7 +66,7 @@ export default defineComponent({
     ];
   },
   watch: {
-    enteredWord(new_word: string, old_word: string) {
+    enteredWord(new_word: string, _: string) {
       if (new_word.toLowerCase() === this.wantedWord.toLowerCase()) {
         this.handleSolve();
       }

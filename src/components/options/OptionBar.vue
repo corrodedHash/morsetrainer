@@ -12,7 +12,7 @@
   </Sidebar>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import FrequencySlider from "@/components/options/FrequencySlider.vue";
 import InputNumber from "primevue/inputnumber";
 import Sidebar from "primevue/sidebar";

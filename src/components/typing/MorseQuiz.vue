@@ -28,13 +28,13 @@ export default defineComponent({
   props: { value: { type: String, required: true } },
   components: { MorseInput, MatchingLetters },
   watch: {
-    morsedWord(new_word: string, old_word: string) {
+    morsedWord(new_word: string) {
       if (new_word.toLowerCase() === this.wantedWord.toLowerCase()) {
         this.$emit("enteredWord");
         this.morsedWord = "";
       }
     },
-    value(new_value: string, old_value: string) {
+    value(new_value: string) {
       this.wantedWord = new_value;
       this.questionId += 1;
     },
